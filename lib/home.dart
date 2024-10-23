@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:thread_app_sample/thread_writepage.dart';
+import 'package:thread_app_sample/thread_write_page.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:thread_app_sample/home.dart';
 
 void main() {
@@ -10,10 +11,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        scaffoldBackgroundColor: Colors.white,
+        textTheme: TextTheme(
+          bodyMedium: TextStyle(color: Colors.white),
+        ),
         useMaterial3: true,
       ),
       home: Home(),
