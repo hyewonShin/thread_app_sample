@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -111,13 +110,24 @@ class ThreadWritePage extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(8),
                               child: Stack(children: [
-                                Image.file(
-                                  File(controller.selectedImages![index].path),
+                                Positioned(
+                                  left: 0,
+                                  right: 0,
+                                  top: 0,
+                                  bottom: 0,
+                                  child: Image.file(
+                                    File(
+                                        controller.selectedImages![index].path),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                                 Positioned(
                                   right: 5,
                                   top: 5,
-                                  child: Icon(Icons.close),
+                                  child: Icon(
+                                    Icons.close,
+                                    color: Colors.white,
+                                  ),
                                 )
                               ]),
                             ),
@@ -158,6 +168,41 @@ class ThreadWritePage extends StatelessWidget {
                         Image.asset('assets/images/align_icon.png', width: 30)),
               ],
             )
+          ],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        height: 70,
+        padding: EdgeInsets.only(
+            left: 15, right: 15, bottom: MediaQuery.of(context).padding.bottom),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                '누구에게나 답글 및 인용 허용',
+                style: TextStyle(color: Color(0xff9a9a9a)),
+              ),
+            ),
+            GetBuilder<ThreadFeedWriteController>(builder: (controller) {
+              return GestureDetector(
+                onTap: () {
+                  if (controller.contents != '') {
+                    Get.find<ThreadFeedWriteController>().save();
+                  }
+                },
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: controller.contents != ''
+                        ? Colors.black
+                        : Color(0xff9a9a9a),
+                  ),
+                  child: Text('게시'),
+                ),
+              );
+            })
           ],
         ),
       ),

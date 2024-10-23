@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:thread_app_sample/feed_model.dart';
 import 'package:thread_app_sample/thread_feed_write_controller.dart';
 import 'package:thread_app_sample/thread_write_page.dart';
 
@@ -43,10 +44,16 @@ class Home extends StatelessWidget {
 
   Widget _quickFeedWriteView() {
     return GestureDetector(
-      onTap: () {
-        Get.to(() => ThreadWritePage(), binding: BindingsBuilder(() {
+      onTap: () async {
+        var result = await Get.to<FeedModel?>(ThreadWritePage(),
+            binding: BindingsBuilder(() {
           Get.put(ThreadFeedWriteController());
         }));
+        if (result != null) {
+          print(result.id);
+          print(result.contents);
+          print(result.images.length);
+        }
       },
       child: Column(
         children: [
