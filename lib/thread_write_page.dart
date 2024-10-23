@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:thread_app_sample/thread_feed_write_controller.dart';
 
 class ThreadWritePage extends StatelessWidget {
   const ThreadWritePage({super.key});
@@ -8,7 +11,7 @@ class ThreadWritePage extends StatelessWidget {
   Future<void> getImagePickerData() async {
     final ImagePicker picker = ImagePicker();
     final List<XFile> images = await picker.pickMultiImage();
-    print(images.length);
+    Get.find<ThreadFeedWriteController>().setSelectedImages(images);
   }
 
   @override
@@ -75,6 +78,10 @@ class ThreadWritePage extends StatelessWidget {
                           contentPadding: EdgeInsets.zero,
                           border: InputBorder.none,
                         ),
+                        onChanged: (value) {
+                          Get.find<ThreadFeedWriteController>()
+                              .setContent(value);
+                        },
                       ),
                     ],
                   ),
@@ -85,65 +92,41 @@ class ThreadWritePage extends StatelessWidget {
             Row(
               children: [
                 SizedBox(width: 50),
-                Expanded(
-                  child: SizedBox(
-                    height: 250,
-                    child: PageView(
-                      padEnds: false,
-                      controller: PageController(viewportFraction: 0.4),
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Stack(children: [
-                              Container(
-                                color: Colors.grey.shade200,
-                              ),
-                              Positioned(
-                                right: 5,
-                                top: 5,
-                                child: Icon(Icons.close),
-                              )
-                            ]),
+                Expanded(child: GetBuilder<ThreadFeedWriteController>(
+                  builder: (controller) {
+                    if (controller.selectedImages == null ||
+                        (controller.selectedImages?.isEmpty ?? true)) {
+                      return Container();
+                    }
+                    return SizedBox(
+                      height: 250,
+                      child: PageView(
+                        padEnds: false,
+                        pageSnapping: false,
+                        controller: PageController(viewportFraction: 0.4),
+                        children: List.generate(
+                          controller.selectedImages?.length ?? 0,
+                          (index) => Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Stack(children: [
+                                Image.file(
+                                  File(controller.selectedImages![index].path),
+                                ),
+                                Positioned(
+                                  right: 5,
+                                  top: 5,
+                                  child: Icon(Icons.close),
+                                )
+                              ]),
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Stack(children: [
-                              Container(
-                                color: Colors.grey.shade200,
-                              ),
-                              Positioned(
-                                right: 5,
-                                top: 5,
-                                child: Icon(Icons.close),
-                              )
-                            ]),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Stack(children: [
-                              Container(
-                                color: Colors.grey.shade200,
-                              ),
-                              Positioned(
-                                right: 5,
-                                top: 5,
-                                child: Icon(Icons.close),
-                              )
-                            ]),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                        ).toList(),
+                      ),
+                    );
+                  },
+                )),
               ],
             ),
             SizedBox(height: 15),
