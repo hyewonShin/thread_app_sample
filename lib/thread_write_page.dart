@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:thread_app_sample/image_view_widget.dart';
 import 'package:thread_app_sample/thread_feed_write_controller.dart';
 
 class ThreadWritePage extends StatelessWidget {
@@ -97,43 +98,11 @@ class ThreadWritePage extends StatelessWidget {
                         (controller.selectedImages?.isEmpty ?? true)) {
                       return Container();
                     }
-                    return SizedBox(
-                      height: 250,
-                      child: PageView(
-                        padEnds: false,
-                        pageSnapping: false,
-                        controller: PageController(viewportFraction: 0.4),
-                        children: List.generate(
-                          controller.selectedImages?.length ?? 0,
-                          (index) => Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Stack(children: [
-                                Positioned(
-                                  left: 0,
-                                  right: 0,
-                                  top: 0,
-                                  bottom: 0,
-                                  child: Image.file(
-                                    File(
-                                        controller.selectedImages![index].path),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 5,
-                                  top: 5,
-                                  child: Icon(
-                                    Icons.close,
-                                    color: Colors.white,
-                                  ),
-                                )
-                              ]),
-                            ),
-                          ),
-                        ).toList(),
-                      ),
+                    return ImageViewWidget(
+                      images: controller.selectedImages
+                              ?.map<File>((e) => File(e.path))
+                              .toList() ??
+                          [],
                     );
                   },
                 )),
