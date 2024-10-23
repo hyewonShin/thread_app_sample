@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:thread_app_sample/feed_model.dart';
@@ -195,6 +196,37 @@ class Home extends StatelessWidget {
     );
   }
 
+  void _showCupertinoActionSheet() {
+    showCupertinoModalPopup(
+      context: Get.context!,
+      builder: (BuildContext context) => CupertinoActionSheet(
+        actions: <CupertinoActionSheetAction>[
+          CupertinoActionSheetAction(
+            onPressed: () {
+              Navigator.pop(context);
+              print('Edit Pressed');
+            },
+            child: Text('수정'),
+          ),
+          CupertinoActionSheetAction(
+            onPressed: () {
+              Navigator.pop(context);
+              print('Delete Pressed');
+            },
+            isDestructiveAction: true,
+            child: Text('삭제'),
+          ),
+        ],
+        cancelButton: CupertinoActionSheetAction(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text('취소'),
+        ),
+      ),
+    );
+  }
+
   Widget _contentArea(FeedModel model) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -228,7 +260,9 @@ class Home extends StatelessWidget {
                 ],
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  _showCupertinoActionSheet();
+                },
                 child: Icon(
                   Icons.more_horiz,
                   color: Color(0xff999999),
