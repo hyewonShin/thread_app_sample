@@ -196,7 +196,7 @@ class Home extends StatelessWidget {
     );
   }
 
-  void _showCupertinoActionSheet() {
+  void _showCupertinoActionSheet(String feedId) {
     showCupertinoModalPopup(
       context: Get.context!,
       builder: (BuildContext context) => CupertinoActionSheet(
@@ -211,7 +211,7 @@ class Home extends StatelessWidget {
           CupertinoActionSheetAction(
             onPressed: () {
               Navigator.pop(context);
-              print('Delete Pressed');
+              Get.find<HomeFeedListcontroller>().removeFeed(feedId);
             },
             isDestructiveAction: true,
             child: Text('삭제'),
@@ -261,7 +261,7 @@ class Home extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  _showCupertinoActionSheet();
+                  _showCupertinoActionSheet(model.id);
                 },
                 child: Icon(
                   Icons.more_horiz,
