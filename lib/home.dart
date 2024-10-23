@@ -5,6 +5,7 @@ import 'package:thread_app_sample/home_feed_list_controller.dart';
 import 'package:thread_app_sample/image_view_widget.dart';
 import 'package:thread_app_sample/thread_feed_write_controller.dart';
 import 'package:thread_app_sample/thread_write_page.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -215,7 +216,10 @@ class Home extends StatelessWidget {
                   ),
                   SizedBox(width: 7),
                   Text(
-                    model.createdAt.toString(),
+                    timeago.format(
+                        DateTime.now().subtract(
+                            DateTime.now().difference(model.createdAt)),
+                        locale: 'ko'),
                     style: TextStyle(
                       color: Color(0xff999999),
                       fontSize: 14,
