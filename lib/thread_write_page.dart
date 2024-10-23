@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ThreadWritePage extends StatelessWidget {
   const ThreadWritePage({super.key});
+
+  Future<void> getImagePickerData() async {
+    final ImagePicker picker = ImagePicker();
+    final List<XFile> images = await picker.pickMultiImage();
+    print(images.length);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,8 +152,11 @@ class ThreadWritePage extends StatelessWidget {
               children: [
                 SizedBox(width: 60),
                 GestureDetector(
-                    child:
-                        Image.asset('assets/images/photo_icon.png', width: 30)),
+                  onTap: () {
+                    getImagePickerData();
+                  },
+                  child: Image.asset('assets/images/photo_icon.png', width: 30),
+                ),
                 SizedBox(width: 10),
                 GestureDetector(
                     child:
