@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,9 +27,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FirebaseFirestore.instance.collection('feeds').get().then((value) {
-      print(value.docs.length);
-    });
     timeago.setLocaleMessages('ko', timeago.KoMessages());
     Get.put(HomeFeedListcontroller());
     return GetMaterialApp(

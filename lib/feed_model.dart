@@ -12,4 +12,12 @@ class FeedModel {
     required this.images,
   })  : id = Uuid().v4(),
         createdAt = DateTime.now();
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'contents': contents,
+      'createdAt': createdAt.toIso8601String(),
+    };
+  }
 }
