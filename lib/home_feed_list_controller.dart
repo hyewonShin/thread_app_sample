@@ -28,8 +28,10 @@ class HomeFeedListcontroller extends GetxController {
     loadAllFeeds();
   }
 
-  void removeFeed(String feedId) {
-    feedList.removeWhere((feed) => feed.id == feedId);
-    update();
-  }
+void removeFeed(String feedId) async {
+  var doc = await feedsCollectionRef.where('id', isEqualTo: feedId).get();
+  feedsCollectionRef.doc(doc.docs.first.id).delete();
+  feedList.removeWhere((feed) => feed.id == feedId);
+  update();
+}
 }
