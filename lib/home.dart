@@ -204,7 +204,7 @@ class Home extends StatelessWidget {
           CupertinoActionSheetAction(
             onPressed: () {
               Navigator.pop(context);
-              print('Edit Pressed');
+              Get.find<HomeFeedListcontroller>().removeFeed(feedId);
             },
             child: Text('수정'),
           ),
