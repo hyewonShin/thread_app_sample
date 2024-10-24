@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +12,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: FirebaseOptions(
-      apiKey: 'AIzaSyCQ6BiVefND94URKEPuH_-4GsNUQbkzSIc',
-      appId: '1:982436077119:android:9c6606f60d037a8319e28a',
+      apiKey:
+          Platform.isAndroid ? 'AIzaSyCQ6BiVefND94URKEPuH_-4GsNUQbkzSIc' : "",
+      appId: Platform.isAndroid
+          ? '1:982436077119:android:9c6606f60d037a8319e28a'
+          : "",
       messagingSenderId: '982436077119',
       projectId: 'thread-sample-app-1fef9',
     ),
