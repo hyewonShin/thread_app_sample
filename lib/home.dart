@@ -196,22 +196,28 @@ class Home extends StatelessWidget {
     );
   }
 
-  void _showCupertinoActionSheet(String feedId) {
+  void _showCupertinoActionSheet(FeedModel feedModel) {
     showCupertinoModalPopup(
       context: Get.context!,
       builder: (BuildContext context) => CupertinoActionSheet(
         actions: <CupertinoActionSheetAction>[
           CupertinoActionSheetAction(
-            onPressed: () {
-              Navigator.pop(context);
-              Get.find<HomeFeedListcontroller>().removeFeed(feedId);
+            onPressed: () async {
+              var result = await Get.to<FeedModel?>(ThreadWritePage(),
+                  binding: BindingsBuilder(() {
+                Get.put(ThreadFeedWriteController(editFeedModel: feedModel));
+              }));
+              Get.back(); // 추가
+              if (result != null) {
+                Get.find<HomeFeedListcontroller>().reload();
+              }
             },
             child: Text('수정'),
           ),
           CupertinoActionSheetAction(
             onPressed: () {
               Navigator.pop(context);
-              Get.find<HomeFeedListcontroller>().removeFeed(feedId);
+              Get.find<HomeFeedListcontroller>().removeFeed(feedModel.id);
             },
             isDestructiveAction: true,
             child: Text('삭제'),
@@ -261,7 +267,7 @@ class Home extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  _showCupertinoActionSheet(model.id);
+                  _showCupertinoActionSheet(model);
                 },
                 child: Icon(
                   Icons.more_horiz,
