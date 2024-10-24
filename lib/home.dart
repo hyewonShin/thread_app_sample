@@ -80,7 +80,7 @@ class Home extends StatelessWidget {
           Get.put(ThreadFeedWriteController());
         }));
         if (result != null) {
-          Get.find<HomeFeedListcontroller>().addFeed(result);
+          Get.find<HomeFeedListcontroller>().reload();
         }
       },
       child: Column(
